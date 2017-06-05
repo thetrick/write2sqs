@@ -14,18 +14,22 @@ SET QUEUE_URL="https://sqs.us-east-1.amazonaws.com/503080364706/msgq-svcplatform
 
 rem Step 1: Remove write2sqs.zip and recreate with 7zip Command Line Utiilty
 del %FUNCTION_FILE%
-7z a %FUNCTION_FILE% * -r -x!*.zip -x!*.json -x!*.log -x!*.git -x!*.bat
+7z a %FUNCTION_FILE% * -r -x!*.zip -x!*.log -x!*.git -x!*.bat
 
 rem Step 2: Upload the Lambda function
-aws lambda create-function ^
-  --region %REGION% ^
-  --function-name %FUNCTION_NAME% ^
-  --zip-file fileb://%FUNCTION_FILE% ^
-  --role %EXEC_ROLE% ^
-  --environment Variables={REGION=%REGION%,QUEUE_URL=%QUEUE_URL%} ^
-  --handler %ENTRY_POINT% ^
-  --runtime nodejs6.10 ^
-  --description %DESCR% ^
-  --timeout 60 ^
-  --memory-size 128 ^
-  --debug
+rem aws lambda create-function ^
+rem   --region %REGION% ^
+rem   --function-name %FUNCTION_NAME% ^
+rem   --zip-file fileb://%FUNCTION_FILE% ^
+rem   --role %EXEC_ROLE% ^
+rem   --environment Variables={REGION=%REGION%,QUEUE_URL=%QUEUE_URL%} ^
+rem   --handler %ENTRY_POINT% ^
+rem   --runtime nodejs6.10 ^
+rem   --description %DESCR% ^
+rem   --timeout 60 ^
+rem   --memory-size 128 ^
+rem   --debug
+
+aws lambda update-function-code ^
+    --function-name %FUNCTION_NAME% ^
+    --zip-file fileb://%FUNCTION_FILE% ^
