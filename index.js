@@ -9,20 +9,20 @@
 'use strict';
 
 var AWS = require('aws-sdk');
-var sqs = new AWS.SQS({region : process.env.AWS_REGION});
+var sqs = new AWS.SQS({ region: process.env.AWS_REGION });
 
-exports.handler = function(event, context) {
+exports.handler = function (event, context) {
   var params = {
     MessageBody: JSON.stringify(event),
     QueueUrl: process.env.QUEUE_URL
   };
-  sqs.sendMessage(params, function(err,data){
-    if(err) {
-      console.log('error:',"Fail Send Message" + err);
+  sqs.sendMessage(params, function (err, data) {
+    if (err) {
+      console.log('error:', "Fail Send Message" + err);
       context.done('error', "ERROR Put SQS");  // ERROR with message
     } else {
-      console.log('data:',data.MessageId);
-      context.done(null,'');  // SUCCESS 
+      console.log('data:', data.MessageId);
+      context.done(null, '');  // SUCCESS 
     }
   });
 }
