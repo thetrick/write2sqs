@@ -3,13 +3,13 @@
  * Last Updated: 6/6/2017
  *
  * Required Env Vars:
- *    AWS_REGION
+ *    REGION
  *    QUEUE_URL
  */
 'use strict';
 
 var AWS = require('aws-sdk');
-var sqs = new AWS.SQS({ region: process.env.AWS_REGION });
+var sqs = new AWS.SQS({ region: process.env.REGION });
 
 exports.handler = function (event, context) {
   var params = {
